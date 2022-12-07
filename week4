@@ -1,0 +1,40 @@
+PImage tt;
+int step=3;
+float startX=0;
+
+void setup() {
+  size(2014, 995);
+  frameRate(30);
+  strokeWeight(step*1.5);
+
+  tt=loadImage("page1.jpg");
+  tt.resize(width, height);
+  tt.loadPixels();
+}
+
+void draw() {
+  noStroke();
+  fill(255, 5);
+  rect(0, 0, width, height);
+
+  startX=mouseX;
+
+  for (int i=0; i<width; i+=step) {
+    for (int j=0; j<height; j+=step) {
+      int index=i+j*width;
+      color col=tt.pixels[index];
+      //color col=eason.get(i, j);
+
+      float xoff=0;
+      float yoff=0;
+      if (i>startX) {
+        float scl=map(i, startX, startX+width, 0, 100);
+        xoff=abs(randomGaussian())*scl; 
+        yoff=random(-scl*0.5, scl*0.5);
+      }
+
+      stroke(col);
+      point(i+xoff, j+yoff);
+    }
+  }
+}
